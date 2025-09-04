@@ -4,3 +4,42 @@ GET {{TodoApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+# Get all todos
+GET {{TodoApi_HostAddress}}/todos
+Accept: application/json
+
+###
+
+# Create a new todo
+POST {{TodoApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "Learn ASP.NET Core",
+  "isComplete": false,
+  "priority": "High"
+}
+
+###
+
+# Get a specific todo by ID
+GET {{TodoApi_HostAddress}}/todos/1
+Accept: application/json
+
+###
+
+# Update a todo
+PUT {{TodoApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "title": "Master ASP.NET Core",
+  "isComplete": true,
+  "priority": "Mid"
+}
+
+###
+
+# Delete a todo
+DELETE {{TodoApi_HostAddress}}/todos/1

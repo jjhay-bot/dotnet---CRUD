@@ -1,13 +1,16 @@
 # Todo API
 
-A simple ASP.NET Core Web API project for managing todos.
+A simple ASP.NET Core Web API project for managing todos with full CRUD operations.
 
 ## Features
 
+- Full CRUD operations for Todo items
 - RESTful API endpoints
 - Built with .NET 9.0
 - OpenAPI/Swagger documentation support
-- Weather forecast sample endpoint
+- In-memory data storage
+- JSON enum serialization support
+- Priority levels for todos (Low, Mid, High)
 
 ## Getting Started
 
@@ -33,6 +36,32 @@ The API will be available at:
 ### API Documentation
 
 When running in development mode, you can access the OpenAPI documentation at the `/openapi` endpoint.
+
+### API Endpoints
+
+#### Todo Operations
+
+- `GET /todos` - Get all todos
+- `GET /todos/{id}` - Get a specific todo by ID
+- `POST /todos` - Create a new todo
+- `PUT /todos/{id}` - Update an existing todo
+- `DELETE /todos/{id}` - Delete a todo
+
+#### Sample Todo Object
+
+```json
+{
+  "title": "Learn ASP.NET Core",
+  "isComplete": false,
+  "priority": "High"
+}
+```
+
+**Priority Levels:** `Low`, `Mid`, `High`
+
+#### Other Endpoints
+
+- `GET /weatherforecast` - Sample weather forecast endpoint
 
 ## Development
 
