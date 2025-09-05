@@ -11,7 +11,7 @@ Accept: application/json
 
 ###
 
-# Create a new todo
+# Create a new todo (don't include ID - it will be auto-generated)
 POST {{TodoApi_HostAddress}}/todos
 Content-Type: application/json
 
@@ -24,12 +24,12 @@ Content-Type: application/json
 ###
 
 # Get a specific todo by ID
-GET {{TodoApi_HostAddress}}/todos/1
+GET {{TodoApi_HostAddress}}/todos/2
 Accept: application/json
 
 ###
 
-# Update a todo
+# Update a todo (full update - all fields required)
 PUT {{TodoApi_HostAddress}}/todos/1
 Content-Type: application/json
 
@@ -37,6 +37,36 @@ Content-Type: application/json
   "title": "Master ASP.NET Core",
   "isComplete": true,
   "priority": "Mid"
+}
+
+###
+
+# Partially update a todo (only send fields you want to change)
+PATCH {{TodoApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "isComplete": true
+}
+
+###
+
+# Update only the priority
+PATCH {{TodoApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "priority": "Low"
+}
+
+###
+
+# Update only the title
+PATCH {{TodoApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "title": "Updated title"
 }
 
 ###

@@ -1,0 +1,114 @@
+@TodoApi_HostAddress = http://localhost:5214
+
+###
+# VALIDATION TESTS
+###
+
+# Test 1: Create todo with empty title (should fail)
+POST {{TodoApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "",
+  "isComplete": false,
+  "priority": "High"
+}
+
+###
+
+# Test 2: Create todo with very long title (should fail)
+POST {{TodoApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "This is a very long title that exceeds the maximum allowed length of 200 characters. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "isComplete": false,
+  "priority": "High"
+}
+
+###
+
+# Test 3: Create todo with invalid priority (should fail)
+POST {{TodoApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "Valid title",
+  "isComplete": false,
+  "priority": "InvalidPriority"
+}
+
+###
+
+# Test 4: Update non-existent todo with PUT (should return 404)
+PUT {{TodoApi_HostAddress}}/todos/999
+Content-Type: application/json
+
+{
+  "title": "Valid title",
+  "isComplete": true,
+  "priority": "Mid"
+}
+
+###
+
+# Test 5: Get non-existent todo (should return 404)
+GET {{TodoApi_HostAddress}}/todos/999
+Accept: application/json
+
+###
+
+# Test 6: PATCH non-existent todo (should return 404)
+PATCH {{TodoApi_HostAddress}}/todos/999
+Content-Type: application/json
+
+{
+  "isComplete": true
+}
+
+###
+
+# Test 7: DELETE non-existent todo (should return 404)
+DELETE {{TodoApi_HostAddress}}/todos/999
+
+###
+
+# Test 8: PATCH with empty title (should fail)
+PATCH {{TodoApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "title": ""
+}
+
+###
+
+# Test 6: PATCH with invalid priority (should fail)
+PATCH {{TodoApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "priority": "InvalidPriority"
+}
+
+###
+
+# Test 7: Valid todo creation (should succeed)
+POST {{TodoApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "Learn validation in ASP.NET Core",
+  "isComplete": false,
+  "priority": "High"
+}
+
+###
+
+# Test 8: Valid partial update (should succeed)
+PATCH {{TodoApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "isComplete": true
+}

@@ -44,10 +44,13 @@ When running in development mode, you can access the OpenAPI documentation at th
 - `GET /todos` - Get all todos
 - `GET /todos/{id}` - Get a specific todo by ID
 - `POST /todos` - Create a new todo
-- `PUT /todos/{id}` - Update an existing todo
+- `PUT /todos/{id}` - Update an existing todo (full update - all fields required)
+- `PATCH /todos/{id}` - Partially update a todo (only send fields you want to change)
 - `DELETE /todos/{id}` - Delete a todo
 
 #### Sample Todo Object
+
+**For creating a new todo (POST):**
 
 ```json
 {
@@ -57,11 +60,87 @@ When running in development mode, you can access the OpenAPI documentation at th
 }
 ```
 
+**For partial updates (PATCH):**
+
+```json
+{
+  "isComplete": true
+}
+```
+
 **Priority Levels:** `Low`, `Mid`, `High`
 
 #### Other Endpoints
 
 - `GET /weatherforecast` - Sample weather forecast endpoint
+
+## Error Handling
+
+The API uses structured error responses with standardized error codes for better integration and debugging.
+
+### Error Response Format
+
+**Validation Errors (400 Bad Request):**
+
+```json
+{
+  "message": "Validation failed",
+  "errors": [
+    {
+      "message": "Title must be at least 6 characters long",
+      "code": 1002,
+      "field": "title"
+    }
+  ]
+}
+```
+
+**Not Found Errors (404 Not Found):**
+
+```json
+{
+  "message": "Todo with ID 999 not found",
+  "code": 2001,
+  "field": "id"
+}
+```
+
+### Error Codes Reference
+
+#### Validation Errors (1xxx)
+
+- `1001` - TITLE_REQUIRED: Title field is required
+- `1002` - TITLE_TOO_SHORT: Title must be at least 6 characters
+- `1003` - TITLE_TOO_LONG: Title cannot exceed 200 characters
+- `1004` - INVALID_PRIORITY: Priority must be Low, Mid, or High
+- `1005` - TITLE_EMPTY: Title cannot be empty (PATCH operations)
+
+#### Resource Errors (2xxx)
+
+- `2001` - TODO_NOT_FOUND: Todo with specified ID does not exist
+
+### Frontend Integration Example
+
+```javascript
+// Handle errors programmatically
+fetch('/todos', { method: 'POST', body: JSON.stringify(todo) })
+  .then(response => response.json())
+  .then(data => {
+    if (data.errors) {
+      data.errors.forEach(error => {
+        switch(error.code) {
+          case 1001: // TITLE_REQUIRED
+          case 1002: // TITLE_TOO_SHORT
+            highlightField(error.field);
+            break;
+          case 2001: // TODO_NOT_FOUND
+            showNotFoundMessage();
+            break;
+        }
+      });
+    }
+  });
+```
 
 ## Development
 
